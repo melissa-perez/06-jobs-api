@@ -1,6 +1,10 @@
 require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
+const helmet = require("helmet");
+const cors = require("cors");
+const xss = require("xss-clean");
+const rateLimit = require("express-rate-limit");
 const app = express();
 
 const connectDB = require("./db/connect");
@@ -13,7 +17,10 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 
 app.use(express.json());
 // extra packages
-
+app.use(helmet());
+app.use(cors());
+app.use(xss());
+app.use(rateLimit);
 // routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", authenticateUser, jobsRouter);
