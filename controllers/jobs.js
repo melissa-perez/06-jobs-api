@@ -31,6 +31,8 @@ const updateJob = async (req, res) => {
         params: { id: jobId }
     } = req;
 
+    console.log("hello");
+    console.log(company, position);
     if (company === "" || position === "") {
         throw new BadRequestError("Company or position fields cannot be empty");
     }
@@ -56,7 +58,7 @@ const deleteJob = async (req, res) => {
     if (!job) {
         throw new NotFoundError(`No job with id ${jobId}`);
     }
-    return res.status(StatusCodes.OK).send();
+    return res.status(StatusCodes.OK).send({ job });
 };
 
 
