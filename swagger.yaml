@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: Jobs Prod
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: '{{PROD_URL}}'
+paths:
+  /auth/register:
+    post:
+      summary: Register User PROD
+      description: Register User PROD
+      operationId: registerUserProd
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: melissa@gmail.com
+                name:
+                  type: string
+                  example: melissa
+                password:
+                  type: string
+                  example: secret
+            examples:
+              Register User PROD:
+                value:
+                  email: melissa@gmail.com
+                  name: melissa
+                  password: secret
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+  /auth/login:
+    post:
+      summary: Login User PROD
+      description: Login User PROD
+      operationId: loginUserProd
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: melissa@gmail.com
+                password:
+                  type: string
+                  example: secret
+            examples:
+              Login User PROD:
+                value:
+                  email: melissa@gmail.com
+                  password: secret
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+  /jobs:
+    get:
+      summary: Get All Jobs PROD
+      description: Get All Jobs PROD
+      operationId: getAllJobsProd
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+    post:
+      summary: Create Job PROD
+      description: Create Job PROD
+      operationId: createJobProd
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company:
+                  type: string
+                  example: McDonalds
+                position:
+                  type: string
+                  example: IT Specialist
+            examples:
+              Create Job PROD:
+                value:
+                  company: McDonalds
+                  position: IT Specialist
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+  /jobs/{id}:
+    get:
+      summary: Get Job PROD
+      description: Get Job PROD
+      operationId: getJobProd
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+    delete:
+      summary: Delete Job PROD
+      description: Delete Job PROD
+      operationId: deleteJobProd
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+    patch:
+      summary: Update Job PROD
+      description: Update Job PROD
+      operationId: updateJobProd
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                position:
+                  type: string
+                  example: IT Analyst
+            examples:
+              Update Job PROD:
+                value:
+                  position: IT Analyst
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags: []
