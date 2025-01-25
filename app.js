@@ -33,9 +33,10 @@ app.use(helmet());
 app.use(xss());
 
 // routes
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
   res.send('Welcome to the Jobs API. Access routes at /api/v1/auth and /api/v1/jobs.');
-});
+});*/
+app.use(express.static("public"));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerYaml));
