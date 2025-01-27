@@ -1,4 +1,4 @@
-import { enableInput, inputEnabled, message, token } from "./index.js";
+import { enableInput, message, token } from "./index.js";
 import { showJobs } from "./jobs.js";
 
 
