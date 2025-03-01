@@ -2,30 +2,36 @@ import { enableInput, inputEnabled, message, setDiv, token } from "./index.js";
 import { showMatches } from "./matches.js";
 
 let addEditDiv = null;
-let company = null;
-let position = null;
-let status = null;
-let addingJob = null;
+let map = null;
+let score = null;
+let outcome = null;
+let mode = null;
+let length = null;
+let played = null;
+let addingMatch = null;
 
 export const handleAddEdit = () => {
-    addEditDiv = document.getElementById("edit-job");
-    company = document.getElementById("company");
-    position = document.getElementById("position");
-    status = document.getElementById("status");
-    addingJob = document.getElementById("adding-job");
+    addEditDiv = document.getElementById("edit-match");
+    map = document.getElementById("map");
+    score = document.getElementById("score");
+    outcome = document.getElementById("outcome");
+    mode = document.getElementById("mode");
+    length = document.getElementById("length");
+    played = document.getElementById("played");
+    addingMatch = document.getElementById("adding-match");
     const editCancel = document.getElementById("edit-cancel");
 
     addEditDiv.addEventListener("click", async (e) => {
         if (inputEnabled && e.target.nodeName === "BUTTON") {
-            if (e.target === addingJob) {
+            if (e.target === addingMatch) {
                 enableInput(false);
 
                 let method = "POST";
-                let url = "/api/v1/jobs";
+                let url = "/api/v1/matches";
 
-                if (addingJob.textContent === "update") {
+                if (addingMatch.textContent === "update") {
                     method = "PATCH";
-                    url = `/api/v1/jobs/${addEditDiv.dataset.id}`;
+                    url = `/api/v1/matches/${addEditDiv.dataset.id}`;
                 }
 
                 try {
@@ -36,9 +42,12 @@ export const handleAddEdit = () => {
                             Authorization: `Bearer ${token}`,
                         },
                         body: JSON.stringify({
-                            company: company.value,
-                            position: position.value,
-                            status: status.value,
+                            map: map.value,
+                            finalScore: position.value,
+                            outcome: outcome.value,
+                            gameMode: mode.value,
+                            gameLength: length.value,
+                            date: played.value,
                         }),
                     });
 
@@ -46,16 +55,19 @@ export const handleAddEdit = () => {
                     if (response.status === 200 || response.status === 201) {
                         if (response.status === 200) {
                             // a 200 is expected for a successful update
-                            message.textContent = "The job entry was updated.";
+                            message.textContent = "The match entry was updated.";
                         } else {
                             // a 201 is expected for a successful create
-                            message.textContent = "The job entry was created.";
+                            message.textContent = "The match entry was created.";
                         }
 
-                        company.value = "";
-                        position.value = "";
-                        status.value = "pending";
-                        showJobs();
+                        map.value = "";
+                        score.value = "";
+                        outcome.value = "";
+                        mode.value = "";
+                        length.value = "";
+                        played.value = "";
+                        showMatches();
                     } else {
                         message.textContent = data.msg;
                     }
@@ -67,18 +79,22 @@ export const handleAddEdit = () => {
             }
             else if (e.target === editCancel) {
                 message.textContent = "";
-                showJobs();
+                showMatches();
             }
         }
     });
 };
 
-export const showAddEdit = async (jobId) => {
-    if (!jobId) {
-        company.value = "";
-        position.value = "";
-        status.value = "pending";
-        addingJob.textContent = "add";
+export const showAddEdit = async (matchId) => {
+    if (!matchId) {
+        map.value = "";
+        score.value = "";
+        outcome.value = "";
+        mode.value = "";
+        length.value = "";
+        played.value = "";
+
+        addingMatch.textContent = "add";
         message.textContent = "";
 
         setDiv(addEditDiv);
@@ -86,7 +102,7 @@ export const showAddEdit = async (jobId) => {
         enableInput(false);
 
         try {
-            const response = await fetch(`/api/v1/jobs/${jobId}`, {
+            const response = await fetch(`/api/v1/matches/${matchId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -96,23 +112,27 @@ export const showAddEdit = async (jobId) => {
 
             const data = await response.json();
             if (response.status === 200) {
-                company.value = data.job.company;
-                position.value = data.job.position;
-                status.value = data.job.status;
-                addingJob.textContent = "update";
+                map.value = data.match.map;
+                score.value = data.match.finalScore;
+                outcome.value = data.match.outcome;
+                mode.value = data.match.gameMode;
+                length.value = data.match.gameLength;
+                played.value = data.match.date;
+
+                addingMatch.textContent = "update";
                 message.textContent = "";
-                addEditDiv.dataset.id = jobId;
+                addEditDiv.dataset.id = matchId;
 
                 setDiv(addEditDiv);
             } else {
                 // might happen if the list has been updated since last display
-                message.textContent = "The jobs entry was not found";
-                showJobs();
+                message.textContent = "The match entry was not found";
+                showMatches();
             }
         } catch (err) {
             console.log(err);
             message.textContent = "A communications error has occurred.";
-            showJobs();
+            showMatches();
         }
         enableInput(true);
     }

@@ -3,7 +3,7 @@ import { showMatches } from "./matches.js";
 
 
 export const handleDelete = async (matchId) => {
-    if (matchMedia) {
+    if (matchId) {
         enableInput(false);
         try {
             const response = await fetch(`/api/v1/matches/${matchId}`, {
@@ -21,7 +21,7 @@ export const handleDelete = async (matchId) => {
                 // might happen if the list has been updated since last display
                 message.textContent = "The match entry was not found";
             }
-            showJobs();
+            showMatches();
         } catch (err) {
             console.log(err);
             message.textContent = "A communications error has occurred.";
