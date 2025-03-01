@@ -1,5 +1,5 @@
 import { enableInput, inputEnabled, message, setDiv, token } from "./index.js";
-import { showJobs } from "./matches.js";
+import { showMatches } from "./matches.js";
 
 let addEditDiv = null;
 let company = null;

@@ -26,7 +26,7 @@ export const setToken = (value) => {
 
 export let message = null;
 
-import { showMatches, handleMatches, showMatch } from "./matches.js";
+import { showMatches, handleMatches } from "./matches.js";
 import { showLoginRegister, handleLoginRegister } from "./loginRegister.js";
 import { handleLogin } from "./login.js";
 import { handleAddEdit } from "./addEdit.js";
