@@ -12,7 +12,7 @@ const app = express();
 
 const connectDB = require("./db/connect");
 const authRouter = require("./routes/auth");
-const jobsRouter = require("./routes/jobs");
+const matchRouter = require("./routes/matches");
 const authenticateUser = require("./middleware/authentication");
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -38,7 +38,7 @@ app.use(xss());
 });*/
 app.use(express.static("public"));
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/jobs", authenticateUser, jobsRouter);
+app.use("/api/v1/matches", authenticateUser, matchRouter);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerYaml));
 
 app.use(notFoundMiddleware);

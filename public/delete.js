@@ -1,12 +1,12 @@
 import { enableInput, message, token } from "./index.js";
-import { showJobs } from "./jobs.js";
+import { showMatches } from "./matches.js";
 
 
-export const handleDelete = async (jobId) => {
-    if (jobId) {
+export const handleDelete = async (matchId) => {
+    if (matchMedia) {
         enableInput(false);
         try {
-            const response = await fetch(`/api/v1/jobs/${jobId}`, {
+            const response = await fetch(`/api/v1/matches/${matchId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -19,13 +19,13 @@ export const handleDelete = async (jobId) => {
                 message.textContent = data.msg;
             } else {
                 // might happen if the list has been updated since last display
-                message.textContent = "The jobs entry was not found";
+                message.textContent = "The match entry was not found";
             }
             showJobs();
         } catch (err) {
             console.log(err);
             message.textContent = "A communications error has occurred.";
-            showJobs();
+            showMatches();
         }
         enableInput(true);
     }

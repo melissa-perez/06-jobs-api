@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 
 
 const UserSchema = new mongoose.Schema({
-    name: {
+    username: {
         type: String,
-        required: [true, "Please provide name"],
+        required: [true, "Please provide username"],
         minlength: 3,
         maxlength: 50
     },
@@ -29,12 +29,12 @@ UserSchema.pre("save", async function () {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-UserSchema.methods.getName = function () {
-    return this.name;
+UserSchema.methods.getUsername = function () {
+    return this.username;
 };
 
 UserSchema.methods.createJWT = function () {
-    return jwt.sign({ userId: this._id, name: this.name }, process.env.JWT_SECRET, { expiresIn: process.env.LIFETIME });
+    return jwt.sign({ userId: this._id, username: this.username }, process.env.JWT_SECRET, { expiresIn: process.env.LIFETIME });
 };
 
 UserSchema.methods.comparePassword = async function (candidatePassword) {

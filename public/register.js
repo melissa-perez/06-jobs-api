@@ -7,17 +7,17 @@ import {
     setToken,
 } from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
-import { showJobs } from "./jobs.js";
+import { showJobs } from "./matches.js";
 
 let registerDiv = null;
-let name = null;
+let username = null;
 let email1 = null;
 let password1 = null;
 let password2 = null;
 
 export const handleRegister = () => {
     registerDiv = document.getElementById("register-div");
-    name = document.getElementById("name");
+    username = document.getElementById("username");
     email1 = document.getElementById("email1");
     password1 = document.getElementById("password1");
     password2 = document.getElementById("password2");
@@ -39,7 +39,7 @@ export const handleRegister = () => {
                                 "Content-Type": "application/json",
                             },
                             body: JSON.stringify({
-                                name: name.value,
+                                username: username.value,
                                 email: email1.value,
                                 password: password1.value,
                             }),
@@ -47,10 +47,10 @@ export const handleRegister = () => {
 
                         const data = await response.json();
                         if (response.status === 201) {
-                            message.textContent = `Registration successful.  Welcome ${data.user.name}`;
+                            message.textContent = `Registration successful.  Welcome ${data.user.username}`;
                             setToken(data.token);
 
-                            name.value = "";
+                            username.value = "";
                             email1.value = "";
                             password1.value = "";
                             password2.value = "";
@@ -67,7 +67,7 @@ export const handleRegister = () => {
                     enableInput(true);
                 }
             } else if (e.target === registerCancel) {
-                name.value = "";
+                username.value = "";
                 email1.value = "";
                 password1.value = "";
                 password2.value = "";
