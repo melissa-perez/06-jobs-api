@@ -5,9 +5,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
-const swaggerUI = require("swagger-ui-express");
-const YAML = require("yamljs");
-const swaggerYaml = YAML.load("./swagger.yaml");
+
 const app = express();
 
 const connectDB = require("./db/connect");
@@ -39,7 +37,6 @@ app.use(xss());
 app.use(express.static("public"));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/matches", authenticateUser, matchRouter);
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerYaml));
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

@@ -55,7 +55,7 @@ export const handleRegister = () => {
                             password1.value = "";
                             password2.value = "";
 
-                            showJobs();
+                            showMatches();
                         } else {
                             message.textContent = data.msg;
                         }

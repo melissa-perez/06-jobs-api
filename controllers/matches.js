@@ -25,18 +25,28 @@ const createMatch = async (req, res) => {
 };
 
 const updateMatch = async (req, res) => {
-    // FIX CODE BETWEEN-----------
     const {
-        body: { company, position },
+        body: { map, mode, outcome, score, length, played },
         user: { userId },
         params: { id: matchId }
     } = req;
 
-    console.log(company, position);
-    if (company === "" || position === "") {
-        throw new BadRequestError("Company or position fields cannot be empty");
+    if (map === "") {
+        throw new BadRequestError("Map field cannot be empty.");
     }
-    // -------------------
+
+    if (score === "") {
+        throw new BadRequestError("Score field cannot be empty.");
+    }
+
+    if (outcome === "") {
+        throw new BadRequestError("Outcome field cannot be empty.");
+    }
+
+    if (mode === "") {
+        throw new BadRequestError("Game mode field cannot be empty.");
+    }
+
     const match = await Match.findByIdAndUpdate({ _id: matchId, createdBy: userId }, req.body, { new: true, runValidators: true });
     if (!match) {
         throw new NotFoundError(`No match with id: ${matchId}`);
@@ -51,14 +61,13 @@ const deleteMatch = async (req, res) => {
     } = req;
 
     const match = await Match.findByIdAndDelete({
-        _id: jobId,
+        _id: matchId,
         createdBy: userId
     });
 
     if (!match) {
         throw new NotFoundError(`No match with id ${matchId}`);
     }
-    //return res.status(StatusCodes.OK).send({ job });
     return res.status(StatusCodes.OK).json({ msg: "The match was deleted." });
 };
 

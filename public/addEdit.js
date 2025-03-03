@@ -6,7 +6,7 @@ let map = null;
 let score = null;
 let outcome = null;
 let mode = null;
-let length = null;
+let time = null;
 let played = null;
 let addingMatch = null;
 
@@ -16,7 +16,7 @@ export const handleAddEdit = () => {
     score = document.getElementById("score");
     outcome = document.getElementById("outcome");
     mode = document.getElementById("mode");
-    length = document.getElementById("length");
+    time = document.getElementById("time");
     played = document.getElementById("played");
     addingMatch = document.getElementById("adding-match");
     const editCancel = document.getElementById("edit-cancel");
@@ -34,6 +34,7 @@ export const handleAddEdit = () => {
                     url = `/api/v1/matches/${addEditDiv.dataset.id}`;
                 }
 
+
                 try {
                     const response = await fetch(url, {
                         method: method,
@@ -43,11 +44,11 @@ export const handleAddEdit = () => {
                         },
                         body: JSON.stringify({
                             map: map.value,
-                            finalScore: position.value,
+                            finalScore: score.value,
                             outcome: outcome.value,
                             gameMode: mode.value,
-                            gameLength: length.value,
-                            date: played.value,
+                            date: played.value ? new Date(played.value).toISOString() : null,
+                            startTime: time.value
                         }),
                     });
 
@@ -65,7 +66,7 @@ export const handleAddEdit = () => {
                         score.value = "";
                         outcome.value = "";
                         mode.value = "";
-                        length.value = "";
+                        time.value = "";
                         played.value = "";
                         showMatches();
                     } else {
@@ -91,7 +92,7 @@ export const showAddEdit = async (matchId) => {
         score.value = "";
         outcome.value = "";
         mode.value = "";
-        length.value = "";
+        time.value = "";
         played.value = "";
 
         addingMatch.textContent = "add";
@@ -111,21 +112,21 @@ export const showAddEdit = async (matchId) => {
             });
 
             const data = await response.json();
+
             if (response.status === 200) {
                 map.value = data.match.map;
                 score.value = data.match.finalScore;
                 outcome.value = data.match.outcome;
                 mode.value = data.match.gameMode;
-                length.value = data.match.gameLength;
-                played.value = data.match.date;
-
+                time.value = data.match.startTime;
+                played.value = data.match.date ? data.match.date.split("T")[0] : "";
                 addingMatch.textContent = "update";
                 message.textContent = "";
                 addEditDiv.dataset.id = matchId;
 
                 setDiv(addEditDiv);
             } else {
-                // might happen if the list has been updated since last display
+                // Handle case where match was not found
                 message.textContent = "The match entry was not found";
                 showMatches();
             }

@@ -75,8 +75,25 @@ export const showMatches = async () => {
               <td>${data.matches[i].finalScore}</td>
               <td>${data.matches[i].outcome}</td>
               <td>${data.matches[i].gameMode}</td>
-              <td>${data.matches[i].gameLength}</td>
-              <td>${data.matches[i].date}</td>
+<td>
+    ${data.matches[i].date
+                            ? (function () {
+                                const date = new Date(data.matches[i].date);
+
+                                const utcMonth = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+                                const utcDay = date.getUTCDate().toString().padStart(2, '0');
+                                const utcYear = date.getUTCFullYear().toString().slice(-2);
+
+                                return `${utcMonth}/${utcDay}/${utcYear}`;
+                            })()
+                            : "N/A"
+                        } - 
+    ${data.matches[i].startTime ? data.matches[i].startTime : "N/A"}
+</td>
+
+
+
+
               <div>${editButton}${deleteButton}</div>`;
                     rowEntry.innerHTML = rowHTML;
                     children.push(rowEntry);

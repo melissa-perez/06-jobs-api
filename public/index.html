@@ -60,8 +60,7 @@
           <th>Final Score</th>
           <th>Outcome</th>
           <th>Mode</th>
-          <th>Length</th>
-          <th>Date</th>
+          <th>Date and Time Played</th>
           <th colspan="2"></th>
         </tr>
       </table>
@@ -76,12 +75,12 @@
         </div>
         <div>
           <label for="score">Final Score:</label>
-          <input type="number" id="score" />
+          <input type="number" id="score" min="0" />
         </div>
         <div>
           <label for="outcome">Outcome:</label>
-          <select id="outcome">
-            <option value="Victory">Victory</option>
+          <select id="outcome" required>
+            <option value="Victory" selected="selected">Victory</option>
             <option value="Defeat">Defeat</option>
             <option value="Draw">Draw</option>
             <option value="Abandoned">Abandoned</option>
@@ -89,8 +88,8 @@
         </div>
         <div>
           <label for="mode">Game Mode:</label>
-          <select id="mode">            
-            <option value="Clash">Clash</option>
+          <select id="mode" required>            
+            <option value="Clash" selected="selected">Clash</option>
             <option value="Control">Control</option>
             <option value="Escort">Escort</option>
             <option value="Hybrid">Hybrid</option>
@@ -99,12 +98,12 @@
           </select>
         </div>
         <div>
-          <label for="length">Game Length:</label>
-          <input type="time" id="length" name="length" />
+          <label for="time">Match Starting Time:</label>
+          <input type="time" id="time" name="time"/>
         </div>
         <div>
           <label for="played">Date Played:</label>
-          <input type="time" id="played" name="played" />
+          <input type="date" id="played" name="played" />
         </div>
         <button type="button" id="adding-match">add</button>
         <button type="button" id="edit-cancel">cancel</button>
